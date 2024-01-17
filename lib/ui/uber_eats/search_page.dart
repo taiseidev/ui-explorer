@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../gen/assets.gen.dart';
 
@@ -44,9 +45,9 @@ class SearchPage extends StatelessWidget {
               ],
             ),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
+              preferredSize: const Size.fromHeight(60),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 2, 16, 0),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
                 child: TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Uber Eats を検索',
@@ -185,15 +186,26 @@ class SearchPage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+        ],
+      ),
     );
   }
 }
 
-class _ListItem extends StatelessWidget {
+class _ListItem extends HookWidget {
   const _ListItem({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isLiked = useState(false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -209,11 +221,16 @@ class _ListItem extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(
-                Icons.favorite_border_outlined,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                onPressed: () => isLiked.value = !isLiked.value,
+                icon: Icon(
+                  isLiked.value
+                      ? Icons.favorite
+                      : Icons.favorite_border_outlined,
+                  color: Colors.white,
+                ),
               ),
             )
           ],
